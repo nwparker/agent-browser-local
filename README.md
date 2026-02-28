@@ -7,17 +7,7 @@ Instead of using an isolated headless Chromium, this skill launches your local C
 ## Install
 
 ```bash
-claude skill install --from nwparker/agent-browser-local
-```
-
-Or add manually to `~/.claude/settings.json`:
-
-```json
-{
-  "enabledPlugins": {
-    "agent-browser-local@agent-browser-local": true
-  }
-}
+npx skills add nwparker/agent-browser-local -y
 ```
 
 ## Usage
