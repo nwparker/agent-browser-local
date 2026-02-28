@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agent-browser-local",
+  "description": "Browser automation using your local browser profile (cookies, auth, extensions)",
+  "owner": {
+    "name": "nwparker",
+    "email": "nwparker@users.noreply.github.com"
+  },
+  "plugins": [
+    {
+      "name": "agent-browser-local",
+      "description": "Use your real local browser (Comet) with agent-browser via CDP for authenticated browsing",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/agent-browser-local"],
+      "category": "development"
+    }
+  ]
+}
