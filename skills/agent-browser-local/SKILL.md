@@ -6,8 +6,8 @@ allowed-tools: Bash(agent-browser:*), Bash(npx agent-browser:*), Bash(osascript:
 
 # Browser Selection
 
-- **Default**: Use **Comet** unless the user explicitly asks for Chrome, Chromium, or Edge.
-- **User choice**: If the user says "use Chrome", "with Chromium", "in Edge", etc., use that browser instead.
+- **Default**: Use **Microsoft Edge** unless the user explicitly asks for Chrome, Chromium, or Comet.
+- **User choice**: If the user says "use Chrome", "with Chromium", "in Comet", etc., use that browser instead.
 
 # CRITICAL:
 
@@ -34,21 +34,21 @@ If the browser is already running but CDP is *not* enabled, you must ask the use
 
 **CRITICAL RULE: The browser MUST be launched in headed (visible) mode.** The human user must be able to see and interact with the browser directly alongside the agent. Do not pass any `--headless` flags.
 
-**Comet (default):**
+**Edge (default):**
 
 ```bash
 # ONLY if user confirms or if no windows are open
-pkill -9 -f Comet 2>/dev/null; sleep 2
+pkill -9 -f "Microsoft Edge" 2>/dev/null; sleep 2
 
 # Launch with CDP
-/Applications/Comet.app/Contents/MacOS/Comet --remote-debugging-port=${CDP_PORT:-9222} &disown 2>/dev/null
+"/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" --remote-debugging-port=${CDP_PORT:-9222} &disown 2>/dev/null
 sleep 3
 
 # Verify CDP is ready
 curl -s http://localhost:${CDP_PORT:-9222}/json/version >/dev/null && echo "CDP ready"
 
 # Bring window to foreground
-osascript -e 'tell application "Comet" to activate'
+osascript -e 'tell application "Microsoft Edge" to activate'
 ```
 
 **Chrome (when user asks for it):**
@@ -71,14 +71,14 @@ curl -s http://localhost:${CDP_PORT:-9222}/json/version >/dev/null && echo "CDP 
 osascript -e 'tell application "Chromium" to activate'
 ```
 
-**Edge (when user asks for it):**
+**Comet (when user asks for it):**
 
 ```bash
-pkill -9 -f "Microsoft Edge" 2>/dev/null; sleep 2
-"/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" --remote-debugging-port=${CDP_PORT:-9222} &disown 2>/dev/null
+pkill -9 -f Comet 2>/dev/null; sleep 2
+/Applications/Comet.app/Contents/MacOS/Comet --remote-debugging-port=${CDP_PORT:-9222} &disown 2>/dev/null
 sleep 3
 curl -s http://localhost:${CDP_PORT:-9222}/json/version >/dev/null && echo "CDP ready"
-osascript -e 'tell application "Microsoft Edge" to activate'
+osascript -e 'tell application "Comet" to activate'
 ```
 
 ## Core Rule: Always Pass `--cdp`
@@ -86,7 +86,7 @@ osascript -e 'tell application "Microsoft Edge" to activate'
 Every `agent-browser` command MUST include `--cdp ${CDP_PORT:-9222}`. This connects to the local browser instance instead of launching a new one.
 
 ```bash
-# CORRECT — uses local browser (Comet by default)
+# CORRECT — uses local browser (Edge by default)
 agent-browser --cdp ${CDP_PORT:-9222} open https://example.com
 agent-browser --cdp ${CDP_PORT:-9222} snapshot -i
 agent-browser --cdp ${CDP_PORT:-9222} click @e1
