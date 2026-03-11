@@ -106,6 +106,30 @@ Every interaction follows this pattern:
 5. **Snapshot**: `agent-browser --cdp 9222 snapshot -i` (get element refs like `@e1`, `@e2`).
 6. **Interact**: Use refs to click, fill, select — always with `--cdp 9222`.
 
+## Authentication / Login Handling
+
+**CRITICAL: Do NOT attempt to log in on behalf of the user.** Since this skill uses the user's local browser profile, authentication should be handled by the user directly.
+
+When you encounter any of the following, you MUST stop and ask the user to step in:
+- A login page or sign-in form
+- An OAuth/SSO redirect (e.g., "Sign in with Google")
+- A 2FA/MFA prompt
+- A CAPTCHA challenge
+- A "session expired" or "please log in" message
+- Any authentication wall blocking access to the target content
+
+**What to do:**
+1. Take a snapshot so you can describe what you see.
+2. Tell the user: "I've hit a login/authentication page. Please log in manually in the browser window, then let me know when you're done."
+3. **Wait for the user to confirm** they have completed login before proceeding.
+4. After the user confirms, take a fresh snapshot and continue with the task.
+
+**Do NOT:**
+- Try to fill in username/password fields yourself
+- Try to click through OAuth/SSO flows
+- Try to bypass or work around the login in any way
+- Assume credentials from environment variables or files
+
 ## Session Lifecycle
 
 - **Reuse always**: Check CDP before every interaction, never re-launch if already running.
